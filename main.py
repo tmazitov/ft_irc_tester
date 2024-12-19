@@ -37,11 +37,17 @@ def main():
     client2 = connect_to_server(host, port)
     send_command(client2, f"PASS {password}", True)
 
-    # NICK
-    test_nick(client, client2, "client_", server_name)
+    try:
+        # NICK
+        test_nick(client, client2, "client_", server_name)
 
-    # USER
-    test_user(client, client2, "client_", "user_", server_name)
+        # USER
+        test_user(client, client2, "client_", "user_", server_name)
+
+        # PRIVMSG
+        test_privmsg(client, client2, "user_A", "client_1", "client_2", server_name)
+    except Exception as e:
+        print(e)
 
     # close connection
     client.close()
