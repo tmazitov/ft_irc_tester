@@ -5,12 +5,6 @@ from tests.test_nick import test_nick
 from tests.test_user import test_user
 from sys import argv
 
-def make_test_conn():
-    host = argv[1]
-    port = int(argv[2])
-
-    return connect_to_server(host, port)
-
 def main():
 
     if len(argv) != 5:
@@ -32,7 +26,7 @@ def main():
     client2 = connect_to_server(host, port)
 
     # PASS
-    test_pass(client, client2, password, server_name, make_test_conn)
+    test_pass(client, client2, password, server_name)
     client2.close()
     client2 = connect_to_server(host, port)
     send_command(client2, f"PASS {password}", True)
