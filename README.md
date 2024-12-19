@@ -21,7 +21,7 @@ Programm will create an autorized client connection
 
 1. Run your IRC server.
 
-2. Open run_test_auto.sh and update variables HOST, PORT and PASSWORD with your data.
+2. Open run_test_client.sh and update variables HOST, PORT and PASSWORD with your data.
 
 3. Run this command in the root folder of tester:
 ```bash
