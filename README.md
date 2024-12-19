@@ -2,13 +2,24 @@
 
 Small tester for your irc server. 
 
-## How to run
+## How to run automatic test (programm will test your IRC server)
 
-1. Clone this repo to your device.
+1. Run your IRC server.
 
-2. Run your IRC server.
+2. Open run_test_auto.sh and update variables HOST, PORT, PASSWORD and SERVER_NAME with your data. 
 
-3. Run this command in the root folder of tester with info about your server:
+3. Run this command in the root folder of tester:
 ```bash
-    python3 main.py <host> <port> <password> <server_name> 
+    ./run_test_auto.sh
+```
+
+## How to run hand test (programm will create an autorized client connection)
+
+1. Run your IRC server.
+
+2. Open run_test_auto.sh and update variables HOST, PORT and PASSWORD with your data.
+
+3. Run this command in the root folder of tester:
+```bash
+    ./run_test_client.sh <client_nickname> <client_username>
 ```
