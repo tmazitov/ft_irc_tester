@@ -1,8 +1,11 @@
 # ft_irc_tester
 
-Small tester for your irc server. 
+Small tester for your irc server. You can choose 2 options:
+* let the program test your IRC server
+* test server by yourself with ready to use client
 
-## How to run automatic test (programm will test your IRC server)
+### How to run automatic test
+Programm will test your IRC server
 
 1. Run your IRC server.
 
@@ -13,7 +16,8 @@ Small tester for your irc server.
     ./run_test_auto.sh
 ```
 
-## How to run hand test (programm will create an autorized client connection)
+### How to run test client
+Programm will create an autorized client connection
 
 1. Run your IRC server.
 
