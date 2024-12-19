@@ -1,6 +1,6 @@
 # ft_irc_tester
 
-Small tester for your irc server.
+Small tester for your irc server. 
 
 ## How to run
 
