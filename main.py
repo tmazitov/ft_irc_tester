@@ -1,4 +1,4 @@
-from client.client import connect_to_server, send_command
+from client.client import connect_to_server, send_command, Client
 from tests.test_privmsg import test_privmsg
 from tests.test_pass import test_pass
 from tests.test_nick import test_nick
@@ -22,30 +22,32 @@ def main():
     password = argv[3]
     server_name = argv[4]
     
-    client = connect_to_server(host, port)
-    client2 = connect_to_server(host, port)
+    clients = [
+        Client(host, port, "client1", "One"),
+        Client(host, port, "client2", "Two"),
+        Client(host, port, "client3", "Three"),
+    ]
 
     # PASS
-    test_pass(client, client2, password, server_name)
-    client2.close()
-    client2 = connect_to_server(host, port)
-    send_command(client2, f"PASS {password}", True)
+    test_pass(clients, password, server_name)
+    clients[1].socket = connect_to_server(host, port)
+    send_command(clients[1].socket, f"PASS {password}", True)
 
     try:
         # NICK
-        test_nick(client, client2, "client_", server_name)
+        test_nick(clients, server_name)
 
         # USER
-        test_user(client, client2, "client_", "user_", server_name)
+        test_user(clients, server_name)
 
         # PRIVMSG
-        test_privmsg(client, client2, "user_A", "client_1", "client_2", server_name)
+        test_privmsg(clients, server_name)
     except Exception as e:
         print(e)
 
     # close connection
-    client.close()
-    client2.close()
+    for client in clients:
+        client.close()
 
 if __name__ == "__main__":
     main()

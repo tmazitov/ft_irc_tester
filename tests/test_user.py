@@ -1,31 +1,33 @@
 from .test import make_test
+from client.client import send_command
 
-def test_user(client, client2, nickname, username, server_name):
+def test_user(clients, server_name):
     print("\nUSER tests:\n")
 
     # test not enough params
-    make_test(client, f"USER",                  f":{server_name} 461 * USER :Not enough parameters")
-    make_test(client, f"USER {nickname}",       f":{server_name} 461 * USER :Not enough parameters")
-    make_test(client, f"USER {nickname} 0",     f":{server_name} 461 * USER :Not enough parameters")
-    make_test(client, f"USER {nickname} 0 *",   f":{server_name} 461 * USER :Not enough parameters")
+    make_test(clients[0].socket, f"USER",                             f":{server_name} 461 * USER :Not enough parameters")
+    make_test(clients[0].socket, f"USER {clients[0].nickname}",       f":{server_name} 461 * USER :Not enough parameters")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0",     f":{server_name} 461 * USER :Not enough parameters")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 *",   f":{server_name} 461 * USER :Not enough parameters")
 
     # test wrong username
-    make_test(client, f"USER {nickname}1 0 * :@{username}", f":{server_name} 432 * :Erroneous username")
-    make_test(client, f"USER {nickname}1 0 * :#{username}", f":{server_name} 432 * :Erroneous username")
-    make_test(client, f"USER {nickname}1 0 * :!{username}", f":{server_name} 432 * :Erroneous username")
-    make_test(client, f"USER {nickname}1 0 * :&{username}", f":{server_name} 432 * :Erroneous username")
-    make_test(client, f"USER {nickname}1 0 * :+{username}", f":{server_name} 432 * :Erroneous username")
-    make_test(client, f"USER {nickname}1 0 * :{username}1a", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :@{clients[0].username}", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :#{clients[0].username}", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :!{clients[0].username}", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :&{clients[0].username}", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :+{clients[0].username}", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :{clients[0].username}1a", f":{server_name} 432 * :Erroneous username")
     
     # test too long username
-    make_test(client, f"USER {nickname}1 0 * :tooooooooooooooolong", f":{server_name} 432 * :Erroneous username")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :tooooooooooooooolong", f":{server_name} 432 * :Erroneous username")
 
     # test invalid nickname
-    make_test(client, f"USER {nickname}8 0 * :{username}", None)
+    make_test(clients[0].socket, f"USER {clients[0].nickname}8 0 * :{clients[0].username}", None)
     
     # test valid nickname
-    make_test(client, f"USER {nickname}1 0 * :{username}A", f":{server_name} 001 {nickname}1 :Welcome to the IRC network")
-    make_test(client2, f"USER {nickname}2 0 * :{username}B", f":{server_name} 001 {nickname}2 :Welcome to the IRC network")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :{clients[0].username}", f":{server_name} 001 {clients[0].nickname} :Welcome to the IRC network")
+    send_command(clients[1].socket, f"USER {clients[1].nickname} 0 * :{clients[1].username}")
+    send_command(clients[2].socket, f"USER {clients[2].nickname} 0 * :{clients[2].username}")
 
     # test double execute USER
-    make_test(client2, f"USER {nickname}2 0 * :{username}B", f":{server_name} 462 * :You may not reregister")
+    make_test(clients[0].socket, f"USER {clients[0].nickname} 0 * :{clients[0].username}", f":{server_name} 462 * :You may not reregister")

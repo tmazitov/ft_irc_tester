@@ -26,3 +26,11 @@ def send_command(client_socket, command, without_response=False):
         return "TimeoutError"
     return response
 
+class Client:
+    def __init__(self, host, port, nickname, username):
+        self.socket = connect_to_server(host, port)
+        self.nickname = nickname
+        self.username = username
+
+    def close(self):
+        self.socket.close()

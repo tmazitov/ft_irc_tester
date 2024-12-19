@@ -1,10 +1,10 @@
 from .test import make_test
 
-def test_pass(client, client2, password, server_name):
+def test_pass(clients, password, server_name):
     print("\nPASS tests:\n")
 
-    make_test(client2, f"PASS", f":{server_name} 461 * PASS :Not enough parameters")
-    make_test(client2, "PASS wrong_pass", f":{server_name} 464 * :Password incorrect")
-    client2.close()
+    make_test(clients[1].socket, f"PASS", f":{server_name} 461 * PASS :Not enough parameters")
+    make_test(clients[1].socket, "PASS wrong_pass", f":{server_name} 464 * :Password incorrect")
+    clients[1].close()
 
-    make_test(client, f"PASS {password}", None)
+    make_test(clients[0].socket, f"PASS {password}", None)
