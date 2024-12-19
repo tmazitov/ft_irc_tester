@@ -2,6 +2,7 @@ from client.client import connect_to_server, send_command
 from tests.test_privmsg import test_privmsg
 from tests.test_pass import test_pass
 from tests.test_nick import test_nick
+from tests.test_user import test_user
 from sys import argv
 
 def make_test_conn():
@@ -37,7 +38,10 @@ def main():
     send_command(client2, f"PASS {password}", True)
 
     # NICK
-    test_nick(client, client2, "test", server_name)
+    test_nick(client, client2, "client_", server_name)
+
+    # USER
+    test_user(client, client2, "client_", "user_", server_name)
 
     # close connection
     client.close()

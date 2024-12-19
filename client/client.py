@@ -10,9 +10,13 @@ def connect_to_server(host, port):
 
 # Send command to server and get response
 def send_command(client_socket, command, without_response=False):
+
+    if without_response:
+        client_socket.settimeout(2)
+    else:
+        client_socket.settimeout(10)
+
     client_socket.sendall(f"{command}\r\n".encode('utf-8'))
-    if (without_response):
-        return None
     response = ""
     try:
         response = client_socket.recv(4096).decode('utf-8')
