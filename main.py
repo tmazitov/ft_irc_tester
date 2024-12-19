@@ -1,6 +1,7 @@
 from client.client import connect_to_server, send_command
 from tests.test_privmsg import test_privmsg
 from tests.test_pass import test_pass
+from tests.test_nick import test_nick
 from sys import argv
 
 def make_test_conn():
@@ -27,12 +28,20 @@ def main():
     server_name = argv[4]
     
     client = connect_to_server(host, port)
+    client2 = connect_to_server(host, port)
 
-    # some tests
-    test_pass(client, password, server_name, make_test_conn, True)
+    # PASS
+    test_pass(client, client2, password, server_name, make_test_conn)
+    client2.close()
+    client2 = connect_to_server(host, port)
+    send_command(client2, f"PASS {password}", True)
+
+    # NICK
+    test_nick(client, client2, "test", server_name)
 
     # close connection
     client.close()
+    client2.close()
 
 if __name__ == "__main__":
     main()

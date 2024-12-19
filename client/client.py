@@ -5,7 +5,7 @@ def connect_to_server(host, port):
     
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
-    client_socket.settimeout(5) 
+    client_socket.settimeout(10) 
     return client_socket
 
 # Send command to server and get response
