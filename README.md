@@ -5,7 +5,7 @@ Small tester for your irc server. You can choose 2 options:
 * test server by yourself with ready to use client
 
 ### How to run automatic test
-Programm will test your IRC server
+Program will test your IRC server
 
 1. Run your IRC server.
 
@@ -17,7 +17,7 @@ Programm will test your IRC server
 ```
 
 ### How to run test client
-Programm will create an autorized client connection
+Program will create an authorized client connection
 
 1. Run your IRC server.
 

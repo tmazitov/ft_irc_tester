@@ -1,6 +1,0 @@
-HOST="127.0.0.1"
-PORT=6000
-PASSWORD="password"
-SERVER_NAME="ft_irc"
-
-python3 main.py $HOST $PORT $PASSWORD $SERVER_NAME
