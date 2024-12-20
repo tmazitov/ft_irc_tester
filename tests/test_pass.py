@@ -1,4 +1,5 @@
 from .test import make_test
+from client.client import send_command
 
 def test_pass(clients, password, server_name):
     print("\nPASS tests:\n")
@@ -8,3 +9,4 @@ def test_pass(clients, password, server_name):
     clients[1].close()
 
     make_test(clients[0].socket, f"PASS {password}", None)
+    send_command(clients[2].socket, f"PASS {password}", None)

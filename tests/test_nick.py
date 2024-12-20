@@ -17,7 +17,7 @@ def test_nick(clients, server_name):
     # test with busy nickname
     send_command(clients[1].socket, f"NICK {clients[1].nickname}")
     send_command(clients[2].socket, f"NICK {clients[2].nickname}")
-    make_test(clients[0].socket, f"NICK {clients[0].nickname}", f":{server_name} 433 * {clients[0].nickname} :Nickname is already in use")
+    make_test(clients[0].socket, f"NICK {clients[1].nickname}", f":{server_name} 433 * {clients[1].nickname} :Nickname is already in use")
 
     # test with valid nickname
     make_test(clients[0].socket, f"NICK {clients[0].nickname}", None)

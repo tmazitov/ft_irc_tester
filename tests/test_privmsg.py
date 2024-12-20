@@ -1,4 +1,4 @@
-from .test import make_test, make_dual_test
+from .test import make_test, make_dual_test, make_broadcast_test
 
 def gen_long_message():
     return "a" * 520
@@ -32,8 +32,15 @@ def test_privmsg(clients, server_name):
     make_test(clients[1].socket, f"PRIVMSG {clients[0].nickname} :hello bro, how are you?", f":{server_name} 301 {clients[1].nickname} {clients[0].nickname} :I'm away")
     make_test(clients[0].socket, f"AWAY", f":{server_name} 305 {clients[0].nickname} :You are no longer marked as being away")
 
-    #:<server_name> 305 <sender_nick> :You are no longer marked as being away
-
-    #:<server_name> 404 <sender_nick> #private_channel :Cannot send to channel
-    #:<server_name> 301 <sender_nick> JohnDoe :Away message text
-    #:<server_name> 476 <sender_nick> @channel :Invalid channel name
+    # test broadcast message
+    make_broadcast_test(clients[0].socket, 
+    [
+        clients[1].socket, 
+        clients[2].socket
+    ], 
+    f"PRIVMSG {clients[1].nickname},{clients[2].nickname} :hello everyone!",
+    None,
+    [
+        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[1].nickname} :hello everyone!"
+        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[2].nickname} :hello everyone!"
+    ])
