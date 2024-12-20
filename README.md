@@ -4,6 +4,12 @@ Small tester for your irc server. You can choose 2 options:
 * let the program test your IRC server
 * test server by yourself with ready to use client
 
+### How to install
+```bash
+./install.sh <host> <port> <password> <server_name>
+```
+This script will create 2 another scripts. One for the hand testing, another to make it automatically.
+
 ### How to run automatic test
 Program will test your IRC server
 
