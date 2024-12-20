@@ -19,7 +19,7 @@ Program will test your IRC server
 
 3. Run this command in the root folder of tester:
 ```bash
-    ./run_test_auto.sh
+./run_test_auto.sh
 ```
 
 ### How to run test client
@@ -31,5 +31,5 @@ Program will create an authorized client connection
 
 3. Run this command in the root folder of tester:
 ```bash
-    ./run_test_client.sh <client_nickname> <client_username>
+./run_test_client.sh <client_nickname> <client_username>
 ```
