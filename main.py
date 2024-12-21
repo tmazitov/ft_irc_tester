@@ -43,10 +43,10 @@ def main():
     test_user(clients, server_name)
 
     # PRIVMSG
-    # test_privmsg(clients, server_name)
+    test_privmsg(clients, server_name)
 
     # JOIN
-    # test_join(clients, server_name)
+    test_join(clients, server_name)
 
     # MODE
     test_mods(clients, server_name)
