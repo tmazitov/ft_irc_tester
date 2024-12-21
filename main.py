@@ -3,6 +3,7 @@ from tests.test_privmsg import test_privmsg
 from tests.test_pass import test_pass
 from tests.test_nick import test_nick
 from tests.test_join import test_join
+from tests.test_mods import test_mods
 from tests.test_user import test_user
 from sys import argv
 
@@ -45,7 +46,10 @@ def main():
     # test_privmsg(clients, server_name)
 
     # JOIN
-    test_join(clients, server_name)
+    # test_join(clients, server_name)
+
+    # MODE
+    test_mods(clients, server_name)
 
     # except Exception as e:
     #     print(e)

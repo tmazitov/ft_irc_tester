@@ -55,28 +55,35 @@ def make_broadcast_test(sender, recipient_clients, command, expected_sender_resp
     recipient_responses = []
     for index, recipient in enumerate(recipient_clients):
         recipient.settimeout(10)
-        try:
-            iter_response = recipient.recv(4096).decode('utf-8')
-        except TimeoutError:
-            if index < len(expected_recipient_responses) and expected_recipient_responses[index] is None:
-                iter_response = None
-            else:
-                iter_response = "TimeoutError"
-        
-        if iter_response is not None:
-            iter_response = iter_response.replace("\r\n", "")
-        
-        recipient_responses.append(iter_response)
+        added_count = 0
+        while added_count < len(expected_recipient_responses)/len(recipient_clients):
+            try:
+                iter_response = recipient.recv(4096).decode('utf-8')
+            except TimeoutError:
+                if index < len(expected_recipient_responses) and expected_recipient_responses[index] is None:
+                    iter_response = None
+                else:
+                    iter_response = "TimeoutError"
+
+            if (iter_response is None):
+                recipient_responses.append(iter_response)
+                continue
+
+            temp_response = iter_response.split("\r\n")
+            for item in temp_response:
+                if item != "":
+                    recipient_responses.append(item)
+                    added_count += 1
 
     if len(expected_recipient_responses) == 0:
         is_equal_recipient_responses = True
     else:
-        is_equal_recipient_responses = all([recipient_responses[i] == expected_recipient_responses[i] for i in range(len(recipient_responses))])
+        is_equal_recipient_responses = len(expected_recipient_responses) == len(recipient_responses) and all([recipient_responses[i] == expected_recipient_responses[i] for i in range(len(recipient_responses))])
 
     if isinstance(expected_sender_response, str):
         is_equal_sender_response = response[0] == expected_sender_response
     else:
-        is_equal_sender_response = all([response[i] == expected_sender_response[i] for i in range(len(response))])
+        is_equal_sender_response = len(expected_sender_response) == len(response) and all([response[i] == expected_sender_response[i] for i in range(len(response))])
     
 
     test_status = is_equal_sender_response and is_equal_recipient_responses
@@ -105,10 +112,15 @@ def make_broadcast_test(sender, recipient_clients, command, expected_sender_resp
                 if i < len(expected_sender_response):
                     print(f"\tExpected sender {i}: {expected_sender_response[i]}")
         print("--------------------")
-        for i, recipient_response in enumerate(recipient_responses):
-            print(f"\tExpected recipient {i}: {expected_recipient_responses[i]}")
-            print(f"\tReceived recipient {i}: {recipient_response}")
-
+        if len(expected_recipient_responses) == len(recipient_responses):
+            for i, recipient_response in enumerate(recipient_responses):
+                print(f"\tExpected recipient {i}: {expected_recipient_responses[i]}")
+                print(f"\tReceived recipient {i}: {recipient_response}")
+        else:
+            for i, recipient_response in enumerate(recipient_responses):
+                print(f"\tReceived recipient {i}: {recipient_response}")
+            for i, expected_recipient_response in enumerate(expected_recipient_responses):
+                print(f"\tExpected recipient {i}: {expected_recipient_response}")
 
 def make_dual_test(sender_client, recipient_client, command, expected_response):
     recipient_client.settimeout(10)
