@@ -2,6 +2,7 @@ from client.client import connect_to_server, send_command, Client
 from tests.test_privmsg import test_privmsg
 from tests.test_pass import test_pass
 from tests.test_nick import test_nick
+from tests.test_join import test_join
 from tests.test_user import test_user
 from sys import argv
 
@@ -33,17 +34,21 @@ def main():
     clients[1].socket = connect_to_server(host, port)
     send_command(clients[1].socket, f"PASS {password}", True)
 
-    try:
-        # NICK
-        test_nick(clients, server_name)
+    # try:
+    # NICK
+    test_nick(clients, server_name)
 
-        # USER
-        test_user(clients, server_name)
+    # USER
+    test_user(clients, server_name)
 
-        # PRIVMSG
-        test_privmsg(clients, server_name)
-    except Exception as e:
-        print(e)
+    # PRIVMSG
+    # test_privmsg(clients, server_name)
+
+    # JOIN
+    test_join(clients, server_name)
+
+    # except Exception as e:
+    #     print(e)
 
     # close connection
     for client in clients:

@@ -36,11 +36,11 @@ def test_privmsg(clients, server_name):
     make_broadcast_test(clients[0].socket, 
     [
         clients[1].socket, 
-        clients[2].socket
+        clients[2].socket,
     ], 
     f"PRIVMSG {clients[1].nickname},{clients[2].nickname} :hello everyone!",
     None,
     [
-        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[1].nickname} :hello everyone!"
-        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[2].nickname} :hello everyone!"
+        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[1].nickname} :hello everyone!",
+        f":{clients[0].nickname}!{clients[0].username}@localhost PRIVMSG {clients[2].nickname} :hello everyone!",
     ])
