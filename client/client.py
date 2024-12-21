@@ -16,7 +16,7 @@ def send_command(client_socket, command, without_response=False):
     else:
         client_socket.settimeout(10)
 
-    client_socket.sendall(f"{command}\r\n".encode('utf-8'))
+    client_socket.sendall(f"{command}\n".encode('utf-8'))
     response = ""
     try:
         response = client_socket.recv(4096).decode('utf-8')
